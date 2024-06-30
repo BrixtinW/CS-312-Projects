@@ -95,7 +95,7 @@ See diagrams below.
 
 ### fermat Complexity
 
-![mod_exp Complexity Diagram](Time-Complexity-of-fermat.jpg)
+<img src="Time-Complexity-of-fermat.jpg" alt="fermat Complexity Diagram" width="700">
 
 ## 3 - 
 ## 4 - 
