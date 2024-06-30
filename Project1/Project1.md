@@ -54,29 +54,39 @@ def fermat(N,k):
 # To generate random values for a, you will most likley want to use
 # random.randint(low,hi) which gives a random integer between low and
 #  hi, inclusive.
-def miller_rabin(N,k):
-   
-    a = random.randint(2, N-2)
-   
-    def helper(N, k, e, a):
+def miller_rabin(N, k):
+    a = random.randint(2, N-2)  
+    
+    def helper(N, k, d, r, a):
         if k == 0:
             return 'prime'
-           
-        # a = random.randint(1, e)
-        modExpResult = mod_exp(a, e, N)
-        print(f"calculation: {a}^{e} = {modExpResult} mod ({N})")
-       
-        if modExpResult == N-1 or e <= 3:
+        
+        
+        mod_exp_result = mod_exp(a, d, N)
+        print(f"Calculation: {a}^{d} = {mod_exp_result} mod ({N})")
+        
+        if mod_exp_result == 1 or mod_exp_result == N - 1:
             return 'prime'
-        elif modExpResult == 1:
-            return helper(N, k-1, e//2, a)
-        else:
-            # print("Failed --> ", str(modExpResult))
-            return 'composite'
-   
-           
-           
-    return helper(N, k, (N-1), a)
+        
+        
+        for _ in range(r):
+            mod_exp_result = (mod_exp_result * mod_exp_result) % N
+            print(f"Calculation: {a}^{(2**(_+1)) * d} = {mod_exp_result} mod ({N})")
+            if mod_exp_result == N - 1:
+                return 'prime'
+            elif mod_exp_result == 1:
+                return 'composite'
+        
+        return 'composite'
+
+    
+    d = N - 1
+    r = 0
+    while d % 2 == 0:
+        d //= 2
+        r += 1
+    
+    return helper(N, k, d, r, a)
 ```
 
 ## 2 - Complexity
@@ -97,6 +107,17 @@ See diagrams below.
 
 <img src="Time-Complexity-of-fermat.jpg" alt="fermat Complexity Diagram" width="700">
 
-## 3 - 
-## 4 - 
-## 5 - 
+## 3 - Example Screenshot
+
+At least one screenshot of your application with a working example 
+
+<img src="Time-Complexity-of-fermat.jpg" alt="fermat Complexity Diagram" width="700">
+
+## 4 - Algorithmic Errors and Differences
+A brief discussion of some experimentation you did to identify inputs for which the two algorithms disagree.
+
+The fermat function is more likely to incorrectly qualify a charmichael number as valid. This is because a Carmichael number n passes Fermat’s primality test for any base b relatively prime to n. We can demonstrate this by passing in 1105, the second smallest charmichael number.
+
+## 5 - Probabilities of Correctness
+Discuss the two equations you used to compute the probabilities 𝑝 of correctness for the two algorithms
+
