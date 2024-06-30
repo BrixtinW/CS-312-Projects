@@ -116,7 +116,15 @@ At least one screenshot of your application with a working example
 ## 4 - Algorithmic Errors and Differences
 A brief discussion of some experimentation you did to identify inputs for which the two algorithms disagree.
 
-The fermat function is more likely to incorrectly qualify a charmichael number as valid. This is because a Carmichael number n passes Fermat’s primality test for any base b relatively prime to n. We can demonstrate this by passing in 1105, the second smallest charmichael number.
+The fermat function is more likely to incorrectly qualify a charmichael number as valid. This is because a Carmichael number n passes Fermat’s primality test for any base b relatively prime to n. We can demonstrate this by passing in 1105, the second smallest charmichael number. After running the first time, we get the correct result from both functions.
+
+<img src="fermat-correct.jpg" alt="fermat Complexity Diagram" width="700">
+
+However, if we run it a few more times, we will get a difference in results.
+
+<img src="fermat-incorrect.jpg" alt="fermat Complexity Diagram" width="700">
+
+This is because the most recent time we ran it, it happened to choose base a = 593 in its last iteration, which happens to be relatively prime to 1105, resulting in an incorrect evaultion.
 
 ## 5 - Probabilities of Correctness
 Discuss the two equations you used to compute the probabilities 𝑝 of correctness for the two algorithms
