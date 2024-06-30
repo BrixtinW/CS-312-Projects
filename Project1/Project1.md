@@ -82,26 +82,12 @@ def miller_rabin(N,k):
 ## 2 - Complexity
 Discuss the time and space complexity of the Modexp and Fermat algorithms.
 ### mod_exp Complexity
-```
-def mod_exp(x, y, N):
-    if y == 0:
-        return 1
-    z = mod_exp(x, (y//2), N)
-    if y % 2 == 0:
-        return (z**2 % N)
-    else:
-        return (x*(z**2)) % N
-```
+
+![mod_exp Complexity Diagram](Time-Complexity-of-mod_exp.png)
+
 ### fermat Complexity
-```
-def fermat(N,k):
-    result = 'prime'
-    for i in range(k):
-        a = random.randint(1, N-1)
-        if mod_exp(a, (N-1), N) != 1:
-            result = 'composite'
-    return result
-```
+![mod_exp Complexity Diagram](CS-312-Projects/Project1/Time Complexity of mod_exp.png)
+
 ## 3 - 
 ## 4 - 
 ## 5 - 
