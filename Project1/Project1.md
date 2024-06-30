@@ -4,7 +4,7 @@ Using Fermat's Little Theorem and the Miller-Rabin test to determine if a number
 
 ## 1 - Code
 
-- [x] Show all of the code that you wrote.
+- [x] *Show all of the code that you wrote.*
 
 ```
 import random
@@ -94,25 +94,23 @@ def miller_rabin(N, k):
 
 ## 2 - Complexity
 
-- [x] Discuss the time and space complexity of the Modexp and Fermat algorithms.
-
-Both the time and space complexity of mod_exp is O(log (y)). 
-
-The time complexity of fermat is O(k log (y) ) as it calls mod_exp k number of times, and the space complexity is constant as the space required by the function does not change as its input increases. 
-
-See diagrams below.
+- [x] *Discuss the time and space complexity of the Modexp and Fermat algorithms.*
 
 ### mod_exp Complexity
+
+Both the time and space complexity of mod_exp is O(log (y)). 
 
 ![mod_exp Complexity Diagram](Time-Complexity-of-mod_exp.png)
 
 ### fermat Complexity
 
+The time complexity of fermat is O(k log (y) ) as it calls mod_exp k number of times, and the space complexity is constant as the space required by the function does not change as its input increases. 
+
 <img src="Time-Complexity-of-fermat.jpg" alt="fermat Complexity Diagram" width="700">
 
 ## 3 - Example Screenshot
 
-- [x] At least one screenshot of your application with a working example.
+- [x] *At least one screenshot of your application with a working example.*
 
 The following is an example of both methods working correctly
 
@@ -120,7 +118,7 @@ The following is an example of both methods working correctly
 
 ## 4 - Algorithmic Errors and Differences
 
-- [x] A brief discussion of some experimentation you did to identify inputs for which the two algorithms disagree.
+- [x] *A brief discussion of some experimentation you did to identify inputs for which the two algorithms disagree.*
 
 The fermat function is more likely to incorrectly qualify a charmichael number as valid. This is because a Carmichael number n passes Fermat’s primality test for any base b relatively prime to n. We can demonstrate this by passing in 1105, the second smallest charmichael number. After running the first time, we get the correct result from both functions.
 
@@ -138,7 +136,7 @@ The solution to minimizing this error is to increase k, the number of times it l
 
 ## 5 - Probabilities of Correctness
 
-- [x] Discuss the two equations you used to compute the probabilities 𝑝 of correctness for the two algorithms
+- [x] *Discuss the two equations you used to compute the probabilities 𝑝 of correctness for the two algorithms*
 
 ### Probability of Fermat's Little Theorem
 
@@ -151,6 +149,10 @@ def fprobability(k):
     return 1-error
 ```
 
+The error for Fermat's Little Theorem halves each iteration, making the probability that it is accurate (1 - error) grow very quickly. In the code above you will see that the error starts at 1, halves each iteration, and is finally subtracted from 1 to give us the decimal representation of its accuracy. Another way of writing this is,
+
+probability = 1 - (.5)^k
+
 ### Probability of the Miller-Rabin Test
 
 ```
@@ -161,4 +163,8 @@ def mprobability(k):
         error = error/4
     return 1-error
 ```
+
+The error for the Miller-Rabin Test is very similar, except it is reduced by 3/4 its previous value each iteration. Another way of writing this might be,
+
+probability = 1 - (.25)^k
 
