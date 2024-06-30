@@ -3,6 +3,9 @@
 Using Fermat's Little Theorem and the Miller-Rabin test to determine if a number is prime
 
 ## 1 - Code
+
+- [x] Show all of the code that you wrote.
+
 ```
 import random
 
@@ -91,7 +94,7 @@ def miller_rabin(N, k):
 
 ## 2 - Complexity
 
-Discuss the time and space complexity of the Modexp and Fermat algorithms.
+- [x] Discuss the time and space complexity of the Modexp and Fermat algorithms.
 
 Both the time and space complexity of mod_exp is O(log (y)). 
 
@@ -109,23 +112,53 @@ See diagrams below.
 
 ## 3 - Example Screenshot
 
-At least one screenshot of your application with a working example 
+- [x] At least one screenshot of your application with a working example.
 
-<img src="Time-Complexity-of-fermat.jpg" alt="fermat Complexity Diagram" width="700">
+The following is an example of both methods working correctly
+
+![correct example finding prime number](correct-example.jpg)
 
 ## 4 - Algorithmic Errors and Differences
-A brief discussion of some experimentation you did to identify inputs for which the two algorithms disagree.
+
+- [x] A brief discussion of some experimentation you did to identify inputs for which the two algorithms disagree.
 
 The fermat function is more likely to incorrectly qualify a charmichael number as valid. This is because a Carmichael number n passes Fermat’s primality test for any base b relatively prime to n. We can demonstrate this by passing in 1105, the second smallest charmichael number. After running the first time, we get the correct result from both functions.
 
-<img src="fermat-correct.jpg" alt="fermat Complexity Diagram" width="700">
+![fermat without error example](fermat-without-error.jpg)
 
 However, if we run it a few more times, we will get a difference in results.
 
-<img src="fermat-incorrect.jpg" alt="fermat Complexity Diagram" width="700">
+![fermat error example](fermat-error.jpg)
 
-This is because the most recent time we ran it, it happened to choose base a = 593 in its last iteration, which happens to be relatively prime to 1105, resulting in an incorrect evaultion.
+This is because the most recent time we ran it, it happened to choose 10 bases which were all relatively prime to 1105 resulting in an incorrect evaultion. The following are all 10 bases it chose.
+
+<img src="relatively-prime-bases.jpg" alt="fermat Complexity Diagram" width="100">
+
+The solution to minimizing this error is to increase k, the number of times it loops, so that the chances of it choosing all relatively prime numbers is smaller.
 
 ## 5 - Probabilities of Correctness
-Discuss the two equations you used to compute the probabilities 𝑝 of correctness for the two algorithms
+
+- [x] Discuss the two equations you used to compute the probabilities 𝑝 of correctness for the two algorithms
+
+### Probability of Fermat's Little Theorem
+
+```
+# You will need to implement this function and change the return value.  
+def fprobability(k):
+    error = 1.0
+    for _ in range(1, k+1):
+        error = error/2
+    return 1-error
+```
+
+### Probability of the Miller-Rabin Test
+
+```
+# You will need to implement this function and change the return value.  
+def mprobability(k):
+    error = 1.0
+    for _ in range(1, k+1):
+        error = error/4
+    return 1-error
+```
 
