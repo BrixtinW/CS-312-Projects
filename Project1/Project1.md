@@ -80,13 +80,22 @@ def miller_rabin(N,k):
 ```
 
 ## 2 - Complexity
+
 Discuss the time and space complexity of the Modexp and Fermat algorithms.
+
+Both the time and space complexity of mod_exp is O(log (y)). 
+
+The time complexity of fermat is O(k log (y) ) as it calls mod_exp k number of times, and the space complexity is constant as the space required by the function does not change as its input increases. 
+
+See diagrams below.
+
 ### mod_exp Complexity
 
 ![mod_exp Complexity Diagram](Time-Complexity-of-mod_exp.png)
 
 ### fermat Complexity
-![mod_exp Complexity Diagram](CS-312-Projects/Project1/Time Complexity of mod_exp.png)
+
+![mod_exp Complexity Diagram](Time-Complexity-of-fermat.jpg)
 
 ## 3 - 
 ## 4 - 
