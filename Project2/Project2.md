@@ -1,7 +1,7 @@
 # Convex Hull
 
 ## 1 - Code
-
+- [x] Correct functioning code to solve the Convex Hull problem using the nlogn divide and conquer algorithm presented in class, with appropriate comments.
 ```
 import math
 
@@ -305,6 +305,9 @@ class ConvexHullSolver(QObject):
 		
 ```
 ## 2 - Time and Space Complexity
+- [x] Discuss the time and space complexity of your algorithm.
+
+
 
 ## 3 - Experimental Outcomes
 
