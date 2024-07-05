@@ -307,9 +307,38 @@ class ConvexHullSolver(QObject):
 ## 2 - Time and Space Complexity
 - [x] Discuss the time and space complexity of your algorithm.
 
+### Time Complexity
 
+The main call to DCHull() in compute_hull() calls several subfunctions and can be divded into three basic parts. The first part is the DCHull() function itself which uses a divde and conquer approach with a time complexity of at most O(log n). 
+
+<img src="Time-Complexity-of-DCHull.jpg" alt="DCHull Complexity Diagram" width="700">
+
+At the end of the DCHull() Function, it calls mergeHulls(), which we will now show has at most a O(n) time complexity. If mergeHulls() has a O(n) time complexity, then our overall time complexity would be O(log n) * O(n)  or O(n log n) as each recursive call calls mergeHulls() (with O(n)) log n times resulting in a O(n log n) time complexity.
+
+mergeHulls() has 2 main parts, which in turn are made up of a single logical block repeated twice for both the left and right hulls. In the first part, we find the upper and lower tangents to the left and right hulls. 
+
+<img src="Time-Complexity-of-Finding-Tangents.jpg" alt="Finding Tangents Complexity Diagram" width="1000">
+
+<img src="Time-Complexity-of-Merging-Hulls.jpg" alt="Merging Hulls Complexity Diagram" width="1000">
+
+#### Recurrence Relation and the Master Theorem
+
+### Space Complexity
+
+i think this is just O(n)
 
 ## 3 - Experimental Outcomes
+
+| Values     | Set 1      | Set 2      | Set 3      | Set 4      |  Set 5     |  Mean Time |
+|------------|------------|------------|------------|------------|------------|------------|
+| 10         | Row 1 Col 2| Row 1 Col 3| Set 1      | Set 2      |  Set 1     |  Set 1     |
+| 100        | Row 2 Col 2| Row 2 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
+| 1000       | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
+| 10000      | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
+| 100000     | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
+| 500000     | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
+| 1000000    | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
+
 
 ## 4 - Differences between theoretical and empirical analyses
 
