@@ -318,13 +318,25 @@ The last block shows the time it takes to merge the two hulls together. The loop
 
 #### Recurrence Relation and the Master Theorem
 
-Now, to find the Recurrence Relation
+<img src="Recurrence-Relation.jpg" alt="Recurrence Relation Definition" width="1000">
+
+We can support our analysis by logically following the divide and conquer master theorem. For our code, the number of subproblems increases by 2 each recursive step, meaning our a = 2. However, the size of our subproblems are always half the size of the previous grouping meaning our b = 2 as well. All we have left is to find the time complexity of dividing and combining out subproblems. 
+
+Dividing our subproblems is constant time as we just pass in a sliced list in the recursive step. As we showed earlier, the time complexity of combining or merging the two hulls is O(n). This means that the k we are concerned about is k = 1 for O(n^k). According to the master theorem, the time complexity of the algorithm is given by O(n^k log (n)) if a = b^k. If we plug in our values, 
+
+a = b^k => 2 = 2^1 
+
+which suggests our time complexity is,
+
+O(n log2(n) )
 
 ### Space Complexity
 
-i think this is just O(n)
+The space required by this algorithm is directly proportional to the size of the input passed in. If we have a larger input, The memory requirements will be proporitionally large. This means that the space complexity of our algorithm is linear, or O(n).
 
 ## 3 - Experimental Outcomes
+
+- [x]
 
 | Values     | Set 1      | Set 2      | Set 3      | Set 4      |  Set 5     |  Mean Time |
 |------------|------------|------------|------------|------------|------------|------------|
@@ -339,7 +351,23 @@ i think this is just O(n)
 
 ## 4 - Differences between theoretical and empirical analyses
 
+- [x] Discuss and explain your observations with your theoretical and empirical analyses, including any differences seen.
+
+I used Desmos to plot the average time with respect to size of the convex hull below to show the similarities and differences to our expected outcome. The first graph depicts an O(n log n) curve in red. 
+
+<img src="n-Log_n-graph.jpg" alt="Expected Outcome" width="400">
+
+Next is the graph of the points we observed through the experiment. Each y point is multiplied by a constant of proportionality c so we can compare this graph to the expected value of n log n. In this case, the coefficient was 274500, or in other words, the constant of proportionality is 1/274500.
+
+<img src="Experimental Graph.jpg" alt="Experimental Outcome" width="400">
+
+Lastly, we can compare the n log n graph with our observed outcome multiplied by the inverse of our constant of proportionality to see that it is similar, proving that our time complexity is in fact O(n log n)
+
+<img src="experimental-and-n-log-n-graphs.jpg" alt="theoretical and empirical conclusions" width="400">
+
 ## 5 - Examples
+
+- [x] Include a correct screenshot of an example with 100 points and a screenshot of an example with 1000 points.
 
 <img src="100-point-example.jpg" alt="Example with 100 Points" width="400">
 
