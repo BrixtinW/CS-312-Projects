@@ -314,9 +314,9 @@ mergeHulls() has 2 main parts, which in turn are made up of a single logical blo
 
 The last block shows the time it takes to merge the two hulls together. The loop we take to merge the two hulls starts at the lower tangent on the left and increments to the upper tangent. The max that this loop could be is less than n times, and would offset the amount of times the other hull has to loop to find the outer points as well. The overall time complexity of this section is also O(n)
 
-<img src="Time-Complexity-of-Merging-Hulls.jpg" alt="Merging Hulls Complexity Diagram" width="1000">
+<img src="Time-Complexity-of-Merging-Hulls.jpg" alt="Merging Hulls Complexity Diagram" width="700">
 
-#### Recurrence Relation and the Master Theorem
+### Recurrence Relation and the Master Theorem
 
 <img src="Recurrence-Relation.jpg" alt="Recurrence Relation Definition" width="1000">
 
@@ -336,7 +336,9 @@ The space required by this algorithm is directly proportional to the size of the
 
 ## 3 - Experimental Outcomes
 
-- [x]
+- [x] Include your raw and mean experimental outcomes, plot, and your discussion of the pattern in your plot.
+
+Below is a table showing our raw and mean experimental outcomes for values 10 - 1,000,000.
 
 | Values     | Set 1      | Set 2      | Set 3      | Set 4      |  Set 5     |  Mean Time |
 |------------|------------|------------|------------|------------|------------|------------|
@@ -348,22 +350,25 @@ The space required by this algorithm is directly proportional to the size of the
 | 500000     | 10.395 | 10.749 | 11.089 | 10.308 | 10.974 | 10.703 Sec |
 | 1000000    | 22.684 | 21.107 | 21.740 | 20.328 | 21.524 | 21.476 Sec |
 
-
-## 4 - Differences between theoretical and empirical analyses
-
-- [x] Discuss and explain your observations with your theoretical and empirical analyses, including any differences seen.
-
 I used Desmos to plot the average time with respect to size of the convex hull below to show the similarities and differences to our expected outcome. The first graph depicts an O(n log n) curve in red. 
 
 <img src="n-Log_n-graph.jpg" alt="Expected Outcome" width="400">
 
 Next is the graph of the points we observed through the experiment. Each y point is multiplied by a constant of proportionality c so we can compare this graph to the expected value of n log n. In this case, the coefficient was 274500, or in other words, the constant of proportionality is 1/274500.
 
-<img src="Experimental Graph.jpg" alt="Experimental Outcome" width="400">
+<img src="Experimental-graph-with-proportionality.jpg" alt="Experimental Outcome" width="400">
 
 Lastly, we can compare the n log n graph with our observed outcome multiplied by the inverse of our constant of proportionality to see that it is similar, proving that our time complexity is in fact O(n log n)
 
 <img src="experimental-and-n-log-n-graphs.jpg" alt="theoretical and empirical conclusions" width="400">
+
+## 4 - Differences between theoretical and empirical analyses
+
+- [x] Discuss and explain your observations with your theoretical and empirical analyses, including any differences seen.
+
+As was shown above, the experimental and theorical outcomes are very close. The slight differences between the theorical output can be explained by things such as the power of the cpu the program was run on as well as differences in approaching problems such as sorting points clockwise and determining if a point is below a line. I determined if a point was below a line by creating a line class which, given two points on the line, would store a slope and y intercept that could then be compared to other points in the same plane. 
+
+To sort points clockwise as part of the base case for the DCHull() function, I used the math.atan2 function and rotated each point -90 degrees so that the points would be sorted starting directly down and rotating clockwise. These implementations, as well as the blocks of code for finding tangents and merging the hulls may still have room for optimization, and would result in the differences between our expected outcome and our observed outcome. 
 
 ## 5 - Examples
 
