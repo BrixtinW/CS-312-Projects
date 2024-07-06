@@ -2,6 +2,7 @@
 
 ## 1 - Code
 - [x] Correct functioning code to solve the Convex Hull problem using the nlogn divide and conquer algorithm presented in class, with appropriate comments.
+
 ```
 import math
 
@@ -63,12 +64,25 @@ class ConvexHullSolver(QObject):
 	
 	def showText(self,text):
 		self.view.displayStatusText(text)
-	
-	# this sorts the points clockwise
+
+	# thhis sorts the points clockwise starting at 270 degrees
 	def sort_points_clockwise(self, points):
-		points_with_angles = [(point, (math.atan2(point.y(), point.x()))) for point in points]
-		points_with_angles.sort(key=lambda x: x[1], reverse=True)
-		return [point for point, angle in points_with_angles]
+		# Calculate the centroid (average point)
+		centroid_x = sum(point.x() for point in points) / len(points)
+		centroid_y = sum(point.y() for point in points) / len(points)
+
+		# Calculate angles relative to the centroid, adjusting for clockwise starting from directly down
+		def calculate_angle(point):
+			angle = math.atan2(point.y() - centroid_y, point.x() - centroid_x)
+			# Adjust angles to start from directly down (0 degrees)
+			adjusted_angle = (angle + math.pi/2) % (2 * math.pi)
+			return adjusted_angle
+
+		# Sort points by angles in descending order
+		sorted_points = sorted(points, key=calculate_angle, reverse=True)
+
+		return sorted_points
+
 		
 	class Line:
 		
@@ -124,12 +138,16 @@ class ConvexHullSolver(QObject):
 		
 		while upperTanFound == False:
 			upperTanFound = True
-			
+			rightAnchorMoved = False
 			# move up left hull
-			for i in range(len(hullL)):
+			for i in range(-2, -len(hullL)-2, -1):
+				i = i % len(hullL)
 				if hullL[i] == leftAnchor:
 					continue
-	  
+
+				if upperTanFound == False and currentUpperTan.isPointBelowLine(hullL[i]) == True:
+					break
+
 				if currentUpperTan.isPointBelowLine(hullL[i]) == False:
 					
 					leftAnchor = hullL[i]
@@ -142,12 +160,16 @@ class ConvexHullSolver(QObject):
 				if hullR[j] == rightAnchor:
 					continue
 				
+				if rightAnchorMoved == True and currentUpperTan.isPointBelowLine(hullR[j]) == True:
+					break
+
 				if currentUpperTan.isPointBelowLine(hullR[j]) == False:
 					
 					rightAnchor = hullR[j]
 
 					currentUpperTan = self.Line(leftAnchor, rightAnchor)
 					upperTanFound = False  
+					rightAnchorMoved = True
 					
 			# Upper tangent found at this point
 	
@@ -166,11 +188,15 @@ class ConvexHullSolver(QObject):
 		
 		while lowerTanFound == False:
 			lowerTanFound = True
+			rightAnchorMoved = False
 			
 			# move up left hull
 			for i in range(len(hullL)):
 				if hullL[i] == leftAnchor:
 					continue
+
+				if lowerTanFound == False and currentLowerTan.isPointBelowLine(hullL[i]) == False:
+					break
 	  
 				if currentLowerTan.isPointBelowLine(hullL[i]) == True:
 					
@@ -179,15 +205,21 @@ class ConvexHullSolver(QObject):
 					lowerTanFound = False  
 			
 			# move up right hull
-			for j in range(len(hullR)):
+			for j in range(-1, -len(hullL)-1, -1):
+				j = j % len(hullR)
+			# for j in range(len(hullR)):
 				if hullR[j] == rightAnchor:
 					continue
+
+				if rightAnchorMoved == True and currentLowerTan.isPointBelowLine(hullR[j]) == False:
+					break
 	  
 				if currentLowerTan.isPointBelowLine(hullR[j]) == True:
 					
 					rightAnchor = hullR[j]
 					currentLowerTan = self.Line(leftAnchor, rightAnchor)
 					lowerTanFound = False  
+					rightAnchorMoved = True
 			
 			# Lower tangent found at this point
 
@@ -197,54 +229,25 @@ class ConvexHullSolver(QObject):
 					
 		mergedHull = []
 
-		# adding relevant points from the left hull
-		if currentUpperTan.leftPoint == currentLowerTan.leftPoint:
-			mergedHull.append(currentUpperTan.leftPoint)
+		# Add points from left hull from lower tangent to upper tangent
+		i = hullL.index(currentLowerTan.leftPoint)
+		while True:
+			mergedHull.append(hullL[i])
+			if hullL[i] == currentUpperTan.leftPoint:
+				break
+			i = (i + 1) % len(hullL)
 
-		else:
-			leftHullBisectLine = self.Line(currentUpperTan.leftPoint, currentLowerTan.leftPoint)
+		# Add points from right hull from upper tangent to lower tangent
+		j = hullR.index(currentUpperTan.rightPoint)
+		while True:
+			mergedHull.append(hullR[j])
+			if hullR[j] == currentLowerTan.rightPoint:
+				break
+			j = (j + 1) % len(hullR)
 
-			for i in range(len(hullL)):
-
-				if (hullL[i] == currentUpperTan.leftPoint or hullL[i] == currentLowerTan.leftPoint):
-					mergedHull.append(hullL[i])
-				
-				elif leftHullBisectLine.slope < 0 and leftHullBisectLine.isPointBelowLine(hullL[i]) == True:
-					mergedHull.append(hullL[i])
-					
-				elif leftHullBisectLine.slope > 0 and leftHullBisectLine.isPointBelowLine(hullL[i]) == False:
-					mergedHull.append(hullL[i])
-			
-			
-
-
-		# adding relevant points from the right hull
-		if currentUpperTan.rightPoint == currentLowerTan.rightPoint:
-			mergedHull.append(currentUpperTan.rightPoint)
-
-		else:
-			rightHullBisectLine = self.Line(currentUpperTan.rightPoint, currentLowerTan.rightPoint)
-			
-		
-			for j in range(len(hullR)):
-				if hullR[j] == currentUpperTan.rightPoint or hullR[j] == currentLowerTan.rightPoint:
-					mergedHull.append(hullR[j])
-			
-				elif rightHullBisectLine.slope < 0 and rightHullBisectLine.isPointBelowLine(hullR[j]) == False:
-					mergedHull.append(hullR[j])
-					
-				elif rightHullBisectLine.slope > 0 and rightHullBisectLine.isPointBelowLine(hullR[j]) == True:
-					mergedHull.append(hullR[j])
-			
-			
-			
-		# sort the points clockwise before returning!!!
-		mergedHull = self.sort_points_clockwise(mergedHull)
-
-		#we want to return a list of all the points in the convext hull in clockwise order.
+		# We want to return a list of all the points in the convex hull in clockwise order.
 		return mergedHull
 	
-
 		
 	#This is my Divide and Conquer algorithm to solve the Convex Hull problem
 	# points is a list of qpointf points. 
@@ -252,7 +255,7 @@ class ConvexHullSolver(QObject):
 		
 		#base case. if there are less than three points, then all of them are in its own hull. 
 		if len(points) <= 3:
-			return points
+			return self.sort_points_clockwise(points)
 	
 		middleIndex = len(points) // 2
 		
@@ -272,16 +275,8 @@ class ConvexHullSolver(QObject):
 	
 		t1 = time.time()
 
-
-
+		# sort the points
 		sortedPoints = sorted(points, key=lambda point: point.x())
-		print("Sorted points:")
-		i = 0
-		for point in sortedPoints:
-			i += 1
-			print(i, ": ", point.x(), point.y())
-
-
 
 		t2 = time.time()
 	
@@ -300,10 +295,8 @@ class ConvexHullSolver(QObject):
 	# object can be created with two QPointF objects corresponding to the endpoints
 		self.showHull(polygon,RED)
 		self.showText('Time Elapsed (Convex Hull): {:3.3f} sec'.format(t4-t3))
-
-	
-		
 ```
+
 ## 2 - Time and Space Complexity
 - [x] Discuss the time and space complexity of your algorithm.
 
@@ -331,15 +324,19 @@ i think this is just O(n)
 
 | Values     | Set 1      | Set 2      | Set 3      | Set 4      |  Set 5     |  Mean Time |
 |------------|------------|------------|------------|------------|------------|------------|
-| 10         | Row 1 Col 2| Row 1 Col 3| Set 1      | Set 2      |  Set 1     |  Set 1     |
-| 100        | Row 2 Col 2| Row 2 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
-| 1000       | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
-| 10000      | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
-| 100000     | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
-| 500000     | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
-| 1000000    | Row 3 Col 2| Row 3 Col 3| Set 1      | Set 2      | Set 1      |  Set 1     |
+| 10         |  0.000 |  0.001 |  0.000 |  0.000 |  0.000 |  0.000 Sec |
+| 100        |  0.005 |  0.004 |  0.005 |  0.005 |  0.005 |  0.005 Sec |
+| 1000       |  0.035 |  0.036 |  0.037 |  0.036 |  0.035 |  0.035 Sec |
+| 10000      |  0.186 |  0.183 |  0.182 |  0.186 |  0.183 |  0.184 Sec |
+| 100000     |  1.770 |  1.753 |  1.743 |  1.721 |  1.702 |  1.738 Sec |
+| 500000     | 10.395 | 10.749 | 11.089 | 10.308 | 10.974 | 10.703 Sec |
+| 1000000    | 22.684 | 21.107 | 21.740 | 20.328 | 21.524 | 21.476 Sec |
 
 
 ## 4 - Differences between theoretical and empirical analyses
 
 ## 5 - Examples
+
+<img src="100-point-example.jpg" alt="Example with 100 Points" width="400">
+
+<img src="1000-point-example.jpg" alt="Example with 1000 Points" width="400">
