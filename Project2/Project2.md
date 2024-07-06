@@ -302,19 +302,23 @@ class ConvexHullSolver(QObject):
 
 ### Time Complexity
 
-The main call to DCHull() in compute_hull() calls several subfunctions and can be divded into three basic parts. The first part is the DCHull() function itself which uses a divde and conquer approach with a time complexity of at most O(log n). 
+The main call to DCHull() in compute_hull() calls several subfunctions and can be divded into three basic parts. The first part is the DCHull() function itself which uses a divde and conquer approach with a time complexity of at most O(log n).
 
 <img src="Time-Complexity-of-DCHull.jpg" alt="DCHull Complexity Diagram" width="700">
 
 At the end of the DCHull() Function, it calls mergeHulls(), which we will now show has at most a O(n) time complexity. If mergeHulls() has a O(n) time complexity, then our overall time complexity would be O(log n) * O(n)  or O(n log n) as each recursive call calls mergeHulls() (with O(n)) log n times resulting in a O(n log n) time complexity.
 
-mergeHulls() has 2 main parts, which in turn are made up of a single logical block repeated twice for both the left and right hulls. In the first part, we find the upper and lower tangents to the left and right hulls. 
+mergeHulls() has 2 main parts, which in turn are made up of a single logical block repeated twice for both the left and right hulls. In the first part, we find the upper and lower tangents to the left and right hulls. Every time the line between the two hulls moves, it gets closer and closer to the top of the hull. Becuase there is a finite distance between the starting point and the point of the upper tangent, both loops are at most O(2n) or O(n), making this entire logical block O(n). The side says the while loop is O(n/2) to show that as one side increments higher the other side also progresses to the final tangent point. This entire block is then repeated again to find the lower tangent, and it has the same time complexity. 
 
 <img src="Time-Complexity-of-Finding-Tangents.jpg" alt="Finding Tangents Complexity Diagram" width="1000">
+
+The last block shows the time it takes to merge the two hulls together. The loop we take to merge the two hulls starts at the lower tangent on the left and increments to the upper tangent. The max that this loop could be is less than n times, and would offset the amount of times the other hull has to loop to find the outer points as well. The overall time complexity of this section is also O(n)
 
 <img src="Time-Complexity-of-Merging-Hulls.jpg" alt="Merging Hulls Complexity Diagram" width="1000">
 
 #### Recurrence Relation and the Master Theorem
+
+Now, to find the Recurrence Relation
 
 ### Space Complexity
 
