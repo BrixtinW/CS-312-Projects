@@ -284,19 +284,21 @@ Legend:
 
 ### Case 1
 
-<img src="Complexity-of-getShortestPath-Function.jpg" alt="getShortestPath Function Complexity Diagram" width="1000">
+<img src="Seed-42-Example.png" alt="Example 1" width="1000">
 
 ### Case 2
 
-<img src="Complexity-of-getShortestPath-Function.jpg" alt="getShortestPath Function Complexity Diagram" width="1000">
+<img src="Seed-123-Example.png" alt="Example 1" width="1000">
 
 ### Case 3
 
-<img src="Complexity-of-getShortestPath-Function.jpg" alt="getShortestPath Function Complexity Diagram" width="1000">
+<img src="Seed-312-Example.png" alt="Example 1" width="1000">
 
 ## 5 - Empirical complexity
 
 - [x]  For different numbers of nodes compare the empirical time complexity for Array vs. Heap, and give your best estimate of the difference.
+
+Below are the tables of the experimental outcomes from both array and heap implementations. For the array output at 1,000,000 nodes the result was estimated based on previous means. The values are the number of nodes in the graph, and the results are the time it took to get the result in seconds. 
 
 ### Array Implementation
 | Values     | Set 1      | Set 2      | Set 3      | Set 4      |  Set 5     |  Mean Time |
@@ -305,7 +307,7 @@ Legend:
 | 1000       |  0.045  |  0.041  |  0.042  |  0.042  |  0.041  |  0.042 Sec |
 | 10000      |  2.142  |  2.104  |  2.114  |  2.174  |  2.165  |  2.139 Sec |
 | 100000     | 370.906 |  379.387  |  418.992  |  444.851  |  470.773  |  416.981 Sec |
-| 1000000    |-|-|-|-|-|  4169.583 Sec |
+| 1000000    |---------|---------|---------|---------|---------|  4169.583 Sec |
 
 ### Heap Implementation
 | Values     | Set 1      | Set 2      | Set 3      | Set 4      |  Set 5     |  Mean Time |
@@ -315,3 +317,19 @@ Legend:
 | 10000       |  0.179  |  0.160  |  0.164  |  0.162  |  0.160  |  0.165 Sec |
 | 100000      |  3.123  |  3.033  |  3.111  |  3.310  |  2.900  |  3.095 Sec |
 | 1000000     |  40.639 |  40.764 |  42.724 |  40.663 |  42.380 |  41.434 Sec |
+
+Using linear regression, we can determine that the line of best fit for the array implementation is,
+
+y = 0.00417x - 0.417
+
+If we plot the average of our 4 observed categories and our 1 estimate, we can compare the experimental output with the expected linear result. It is easy to see that the array implmentation is essentially linear or O(n) time. I used a dictionary in my implementation, so this line has a slightly smaller slope than a pure array implementation would have.
+
+<img src="Array-Experimental-Outcomes.jpg" alt="Array Experimental Outcome Graph" width="1000">
+
+If we plot the averages of our experimental outcomes for the heap array, we can see that it follows the line n log (n) very closely, showing us that the time complexity is O(n log n)
+
+<img src="Heap-Experimental-Outcomes.jpg" alt="Heap Experimental Outcome Graph" width="1000">
+
+Whichever method you choose, you must iterate through all the values in your queue making the algorithm at least O(n). If you use a heap, then the delete_min() function will be log2(n) as re-sorting the heap after you pop the smallest value is O(log n). You also have to keep in mind that you iterate through all the edges for each node. Because the edges were capped at 3 in this case, the edges are negligible. However, in any other situation the number of edges could be as large as n - 1. This explains why the final complexity for using a heap is O((V + E) log V), as in seen in comparing the experimental graph to the graph for x log (x). 
+
+Simliarly, the array implementation would use a O(V) for delete_min(), meaning that the overall time complexity would be closer to O(V^2 + E). However, becasue I used a dictionary in my implementation, the real time complexity is more linear in scope. If you were to increase the number of edges to n - 1, as mentioned previously, the time complexity may even be closer to O(n^2) for the array implementation. 
