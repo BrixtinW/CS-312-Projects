@@ -4,6 +4,37 @@
 - [x] Correctly implement Dijkstra’s algorithm
 
 ```
+    def getShortestPath(self, destIndex):
+        # Time Complexity O(3 * n) - number of edges it has to loop through and the length of the path. the specs
+        # say there is only at most 3 edges going from each node, but in worse case scenario in a strongly
+        # connected graph, it could be O(n^2)
+        # Space Complexity O(n) - if the path goes through all nodes, then it would be O(n)
+        self.dest = destIndex
+        total_length = self.distances[destIndex]
+        current_node = self.network.nodes[destIndex]
+        path = []
+
+       
+        while current_node.node_id != self.source:
+            previous_node = self.previous_nodes[current_node.node_id]
+
+            # there is no path. the previous node has no path to the source.
+            if previous_node is None:
+                return {'cost': float('inf'), 'path': []}
+
+            # Find the edge that connects the previous node to the current node
+            edge = None
+            for e in previous_node.neighbors:
+                if e.dest.node_id == current_node.node_id:
+                    edge = e
+                    break
+
+            path.insert(0, (edge.src.loc, edge.dest.loc, '{:.0f}'.format(edge.length)))
+           
+            current_node = self.network.nodes[previous_node.node_id]
+    
+        return {'cost': total_length, 'path': path}
+
     def computeShortestPaths(self, srcIndex, use_heap=False):
         # Time Complexity O((V +E) log V) - if you are using a heap. if you are using an array,
         # it would be O(V^2 + E) because of delete_min. because E is always 3, it is essentially
@@ -235,9 +266,9 @@ Legend:
 
 ### Complexity of Heap Priority Queue
 
-<img src="Complexity-of-Heap-Priority-Queue-1.jpg" alt="Heap Queue Complexity Diagram (pt1)" width="1000">
+<img src="Complexity-of-Heap-Priority-Queue-1.jpg" alt="Heap Queue Complexity Diagram (pt1)" width="700">
 
-<img src="Complexity-of-Heap-Priority-Queue-2.jpg" alt="Heap Queue Complexity Diagram (pt2)" width="1000">
+<img src="Complexity-of-Heap-Priority-Queue-2.jpg" alt="Heap Queue Complexity Diagram (pt2)" width="1200">
 
 ### Complexity of Dijkstra's Algorithm
 
@@ -251,6 +282,18 @@ Legend:
 
 - [x]  Submit a screenshot showing your results
 
+### Case 1
+
+<img src="Complexity-of-getShortestPath-Function.jpg" alt="getShortestPath Function Complexity Diagram" width="1000">
+
+### Case 2
+
+<img src="Complexity-of-getShortestPath-Function.jpg" alt="getShortestPath Function Complexity Diagram" width="1000">
+
+### Case 3
+
+<img src="Complexity-of-getShortestPath-Function.jpg" alt="getShortestPath Function Complexity Diagram" width="1000">
+
 ## 5 - Empirical complexity
 
 - [x]  For different numbers of nodes compare the empirical time complexity for Array vs. Heap, and give your best estimate of the difference.
@@ -261,8 +304,8 @@ Legend:
 | 100        |  0.001  |  0.001  |  0.000  |  0.001  |  0.001  |  0.000 Sec |
 | 1000       |  0.045  |  0.041  |  0.042  |  0.042  |  0.041  |  0.042 Sec |
 | 10000      |  2.142  |  2.104  |  2.114  |  2.174  |  2.165  |  2.139 Sec |
-| 100000     | 370.906 |  379.387  |  418.992  |  444.851  |  470.773  |   Sec |
-| 1000000    |  |  |  |  |  |  Sec |
+| 100000     | 370.906 |  379.387  |  418.992  |  444.851  |  470.773  |  416.981 Sec |
+| 1000000    |-|-|-|-|-|  4169.583 Sec |
 
 ### Heap Implementation
 | Values     | Set 1      | Set 2      | Set 3      | Set 4      |  Set 5     |  Mean Time |
@@ -270,5 +313,5 @@ Legend:
 | 100         |  0.002  |  0.002  |  0.001  |  0.001  |  0.002  |  0.001 Sec |
 | 1000        |  0.018  |  0.017  |  0.017  |  0.017  |  0.017  |  0.017 Sec |
 | 10000       |  0.179  |  0.160  |  0.164  |  0.162  |  0.160  |  0.165 Sec |
-| 100000      |  3.123  |  3.033  |  3.111  |  3.310  |  2.900  |   Sec |
-| 1000000     |  40.639 |  40.764 |  42.724 |  40.663 |  42.380 |  Sec |
+| 100000      |  3.123  |  3.033  |  3.111  |  3.310  |  2.900  |  3.095 Sec |
+| 1000000     |  40.639 |  40.764 |  42.724 |  40.663 |  42.380 |  41.434 Sec |
