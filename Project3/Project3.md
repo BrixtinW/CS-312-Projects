@@ -214,15 +214,36 @@ class PriorityQueueHeap:
 
 - [x] Discuss the time and space complexity of the overall Dijkstra algorithm and each of your two versions with your priority queue implementations
 
-anything not specified is assumed to have a constant time and space complexity
+There are four main portions to the project; 
 
+1. The array priority queue
+2. The heap priority queue
+3. Dijkstra's algorithm
+4. The getShortestPath function which returns the shortest path obtained in Dijkstra's Algorithm.
 
+Below are diagrams showing each function's Time and Space complexities. Anything not labeled is assumed to have a constant time and space complexity, and the other labels are as follows,
+
+Legend:
+- Blue Labels --> Time complexity using the heap implementation
+- Red Labels --> Time complexity of using the array (dictionary) implementation
+- Grey Labels --> Time complexity regardless of array or heap implementations
+- White Labels --> Space Complexity regardless of array or heap implementations
+
+### Complexity of Array Priority Queue
 
 <img src="Complexity-of-Array-Priority-Queue.jpg" alt="Array Queue Complexity Diagram" width="1000">
 
-<img src="Complexity-of-Heap-Priority-Queue.jpg" alt="Heap Queue Complexity Diagram" width="1000">
+### Complexity of Heap Priority Queue
 
-<img src="Complexity-of-Dijkstra's-Algorithm.jpg" alt="Dijkstra's Algorithm Complexity Diagram" width="3000">
+<img src="Complexity-of-Heap-Priority-Queue-1.jpg" alt="Heap Queue Complexity Diagram (pt1)" width="1000">
+
+<img src="Complexity-of-Heap-Priority-Queue-2.jpg" alt="Heap Queue Complexity Diagram (pt2)" width="1000">
+
+### Complexity of Dijkstra's Algorithm
+
+<img src="Complexity-of-Dijkstra's-Algorithm.jpg" alt="Dijkstra's Algorithm Complexity Diagram" width="1000">
+
+### Complexity of getShortestPath() Function
 
 <img src="Complexity-of-getShortestPath-Function.jpg" alt="getShortestPath Function Complexity Diagram" width="1000">
 
