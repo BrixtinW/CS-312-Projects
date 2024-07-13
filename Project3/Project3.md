@@ -216,6 +216,16 @@ class PriorityQueueHeap:
 
 anything not specified is assumed to have a constant time and space complexity
 
+
+
+<img src="Complexity-of-Array-Priority-Queue.jpg" alt="Array Queue Complexity Diagram" width="1000">
+
+<img src="Complexity-of-Heap-Priority-Queue.jpg" alt="Heap Queue Complexity Diagram" width="1000">
+
+<img src="Complexity-of-Dijkstra's-Algorithm.jpg" alt="Dijkstra's Algorithm Complexity Diagram" width="3000">
+
+<img src="Complexity-of-getShortestPath-Function.jpg" alt="getShortestPath Function Complexity Diagram" width="1000">
+
 ## 4 - Screenshots
 
 - [x]  Submit a screenshot showing your results
