@@ -4,19 +4,6 @@
 - [x] Include your self-documenting code for both greedy and branch and bound.
 
 ```
-
-	''' <summary>
-		This is the entry point for the greedy solver, which you must implement for
-		the group project (but it is probably a good idea to just do it for the branch-and
-		bound project as a way to get your feet wet).  Note this could be used to find your
-		initial BSSF.
-		</summary>
-		<returns>results dictionary for GUI that contains three ints: cost of best solution,
-		time spent to find best solution, total number of solutions found, the best
-		solution found, and three null values for fields not used for this
-		algorithm</returns>
-	'''
-
 	def greedy( self,time_allowance=60.0 ):
 		results = {}
 		cities = self._scenario.getCities()
@@ -81,19 +68,8 @@
 		results['total'] = None # this is the total number of nodes created?
 		results['pruned'] = None # this is the number of pruned branches
 		return results
-
 ```
 ```
-
-	''' <summary>
-		This is the entry point for the branch-and-bound algorithm that you will implement
-		</summary>
-		<returns>results dictionary for GUI that contains three ints: cost of best solution,
-		time spent to find best solution, total number solutions found during search (does
-		not include the initial BSSF), the best solution found, and three more ints:
-		max queue size, total number of states created, and number of pruned states.</returns>
-	'''
-
 	def branchAndBound( self, time_allowance=60.0 ):
 		### INITIALIZATION ###
 		results = {}
@@ -159,6 +135,12 @@
 				else:
 					stack.extend(self.expand(stack.pop()))
 					break
+
+		while len(stack) > 0: 
+			if stack[-1].lowerBound > lowestBoundSoFar:
+				numPrunedBranches += 1
+			stack.pop()
+			
 		# Branch and Bound Algorithm
 
 		# Population results with the solution. this is outside the Branch and Bound algorithm #
@@ -290,6 +272,14 @@
 ## 2 - Time and Space Complexity
 - [x] Discuss the time and space complexity of your algorithms.
 
+<img src="Greedy-Complexity.jpg" alt="Unrestricted Matrix Example" width="1000">
+
+<img src="Branch-And-Bound-Helpers-Complexity.jpg" alt="Unrestricted Matrix Example" width="1000">
+
+<img src="Branch-And-Bound-Overview-Complexity.jpg" alt="Unrestricted Matrix Example" width="1000">
+
+If not specified, you can assume it has constant time and space complexity. Time, space and time and space colors
+
 ## 3 - State Data Structure
 - [x] Describe the data structures you used to represent the states.
 
@@ -304,18 +294,18 @@
 ## 6 - Data Table
 - [x] Include a table containing the specified columns.
 
-| # of Cities |  Seed  | Running Time (Sec) | Cost of Best Tour Found | Max # of Stored States at a Given Time | # of BSSF updates | Total # of states created | Total # of States Pruned | Running Time | Tour Cost for Greedy |
-|-------------|--------|--------------------|-------------------------|----------------------------------------|-------------------|---------------------------|--------------------------|--------------|----------------------|
-|             |    |    |    |    |    |    |    |
-|         |    |    |    |    |    |    |    |
-|        |    |    |    |    |    |    |    |
-|       |    |    |    |    |    |    |    |
-|      |   |   |   |   |   |    |    |
-|             |    |    |    |    |    |    |    |
-|         |    |    |    |    |    |    |    |
-|        |    |    |    |    |    |    |    |
-|       |    |    |    |    |    |    |    |
-|      |   |   |   |   |   |    |    |
+| # of Cities |  Seed  | Running Time (Sec) | Cost of Best Tour Found | Max # of Stored States at a Given Time | # of BSSF updates | Total # of states created | Total # of States Pruned | Running Time for Greedy | Tour Cost for Greedy |
+|-------------|--------|--------------------|-------------------------|----------------------------------------|-------------------|---------------------------|--------------------------|-------------------------|----------------------|
+|   15        |   20   |      0.944         |         10,534          |                 72                     |        19         |           11,942          |           8,369          |          0.003          |        9,871         |    
+|   16        |   902  |      2.698         |         7,954           |                 82                     |         8         |           31,735          |          22,005          |          0.004          |        9,978         |    
+|   17        |   54   |     16.382         |         9,280           |                 98                     |        12         |          178,318          |          123,978         |          0.005          |       11,010         |    
+|   18        |   416  |      7.247         |         8,841           |                109                     |        12         |           70,880          |           50,375         |          0.006          |        9,463         |    
+|   19        |    38  |     60.000         |         10,069          |                121                     |        4          |          550,294          |          388,630         |          0.007          |        9,466         |    
+|   20        |   758  |     60.001         |         10,577          |                143                     |        8          |          516,676          |          363,411         |          0.008          |       11,810         |    
+|   25        |   523  |     60.002         |         13,808          |                220                     |        8          |          403,334          |          274,234         |          0.015          |       15,183         |    
+|   30        |    82  |     60.004         |         13,599          |                329                     |        8          |          288,038          |          210,041         |          0.023          |       16,068         |    
+|   40        |   615  |     60.012         |         17,979          |                605                     |        6          |          259,242          |          144,716         |          0.051          |       18,365         |  
+|   50        |   854  |     60.024         |         19,258          |                920                     |        3          |          155,055          |          108,168         |          0.086          |       22,448         | 
 
 ## 7 - Experimental Results
 - [x] Discuss the results in the table and why you think the numbers are what they are.
