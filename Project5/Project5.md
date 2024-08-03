@@ -80,8 +80,6 @@
 		self.numNodes = 1
 		start_time = time.time()
 
-
-
 		startingEdgeArray = []
 		for i in range(self.ncities):
 			rowArray = []
@@ -89,7 +87,6 @@
 				rowArray.append(self.cities[i].costTo(self.cities[j]))
 			
 			startingEdgeArray.append(rowArray)
-
 
 		startingLowerBound, startingEdgeArray  = self.normalize(startingEdgeArray)
 		root = self.State(startingLowerBound, startingEdgeArray, [], 0)
@@ -102,7 +99,6 @@
 		lowestBoundSoFar = np.inf
 		### INITIALIZATION ###
 
-		
 		# Branch and Bound algorithm #
 		while len(stack) != 0 and time.time() - start_time < time_allowance: 
 			if len(stack) > maxSizeOfStack:
@@ -122,8 +118,6 @@
 					count += 1
 					foundTour = True
 					continue
-
-
 
 			# if the lowerbound of the top state is less than the previous lowest bound so far, then we continue. if it is above, then we can simply pop it off and continue
 			# if the lower bound is negative, then you can pop it off becuase it is crossing lines somewhere
@@ -192,10 +186,6 @@
 
 			# add the child state to a list of all child states
 			listOfStates.append(self.State((childLowerBound + lowerBoundAdditional), childEdgeArray, parentState.vistedNodes[:], col))
-
-
-
-
 
 		if len(listOfStates) != 0:
 			# could just return here
@@ -281,7 +271,7 @@ Legend:
 
 ### Greedy Algorithm
 
-Time Complexity = O(T*n^3) - The Time Complexity is atmost O(T*n^3) where T is the time allowance. In reality, the Time Complexity will be much smaller on average as the while loop and largest for loop only iterate if it fails to find a path, which in this situation happens fairly infrequently. 
+Time Complexity = O(Tn^3) - The Time Complexity is atmost O(Tn^3) where T is the time allowance. In reality, the Time Complexity will be much smaller on average as the while loop and largest for loop only iterate if it fails to find a path, which in this situation happens fairly infrequently. 
 
 Space Complexity = O(n) - You just need to populate the route and visted arrays, which are of length n. 
 
@@ -293,7 +283,7 @@ Space Complexity = O(n) - You just need to populate the route and visted arrays,
 
 **Time Complexity** = O(1) - Becuase I used a stack instead of a queue (see discussion under 4 - Priority Data Structure), initialization, insertion and deletion complexity are all O(1).
 
-**Space Complexity** = O((n-1)!) - Worst case scenario, the stack could hold (n-1)! number of states at one time (all of the states in the tree), though in reality it is much less than this. 
+**Space Complexity** = O(((n-1)n)/2) - Worst case scenario, the stack could hold O(((n-1)n)/2) number of states at one time (all of the states generated at each level if you only ever follow one of the generated branches. See Space Complexityy of BSSF initialization for more info), though in reality it is much less than this. 
 
 ### Reduced Cost Matrix
 
@@ -303,9 +293,9 @@ Space Complexity = O(n) - You just need to populate the route and visted arrays,
 
 ### BSSF Initialization
 
-**Time Complexity** = O(((n-1)n)/2) - I initialize the BSSF to infinity and only change it once I reach the first leaf node. However, if you consider initialization as when I find the first bssf other than infinity, it would be a depth first search passing through all the levels in the tree. See Space Complexity.
+**Time Complexity** = O(((n-1)n)/2) - I initialize the BSSF to infinity and only change it once I reach the first leaf node. However, if you consider initialization as when I find the first bssf other than infinity, it would be found by generating all the child nodes for only one of the possible branches. See Space Complexity.
 
-**Space Complexity** = O(((n-1)n)/2) - Worse case scenario would be you have to fill all the branches in a depth first search. This would result in n-1 + n-1 + n-3 ... + 1 which simplifies down to ((n-1)n)/2
+**Space Complexity** = O(((n-1)n)/2) - Worse case scenario would be you have to fill all the child nodes for only one of the branches at each iteration. This would result in n-1 + n-2 + n-3+ n-4 ... + 1 which simplifies down to ((n-1)n)/2
 
 ### Expand Function
 
@@ -364,7 +354,15 @@ I did a depth first search following the state with the lowest bound. This would
 ## 7 - Experimental Results
 - [x] Discuss the results in the table and why you think the numbers are what they are.
 
-The only columns with significant dependent results are in columns 4 - 7. (col 4) It makes sense that the max number of store states at a given time increases as the tree sizes increases. (col 5) It makes sense that there are less bssf updates as the tree gets bigger becuase it is harder to get to all leaf nodes when the tree is bigger. Once they reach 60 seconds to traverse, many of the potential bssf updates simply cannot be reached in time. (col 6) Number of states created seems to follow a bell curve of sorts which starts lower, goes high in the middle and goes down at the end. I believe this is because larger n values will slow down the time it takes to traverse the n by n arrays, leaving  less time to visit other states in general. that explains why it is lower at the end, and the smaller number of states at the bigginnning is simply due to the smaller number of nodes in the tree. It seems the optimal time to traverse those arrays as well as traverse the tree is around 19 cities. (col 7) This follows the same pattern as the states created. 
+The only columns with significant dependent results are in columns 4 - 7. 
+
+(col 4) It makes sense that the max number of stored states at a given time increases as the tree sizes increases. 
+
+(col 5) It makes sense that there are less bssf updates as the tree gets bigger becuase it is harder to get to all leaf nodes when the tree is bigger. Once they reach 60 seconds to traverse, many of the potential bssf updates simply cannot be reached in time. 
+
+(col 6) Number of states created seems to follow a bell curve of sorts which starts lower, goes high in the middle and goes down at the end. I believe this is because larger n values will slow down the time it takes to traverse the n by n arrays, leaving  less time to visit other states in general. that explains why it is lower at the end, and the smaller number of states at the bigginnning is simply due to the smaller number of nodes in the tree. It seems the optimal time to traverse those arrays as well as traverse the tree is around 19 cities. 
+
+(col 7) This follows the same pattern as the states created. 
 
 As the time it takes to run the branch and bound algorithm increases (assuming no cutoff time) it becomes more and more worth it to use the greedy algorithm as it solves much faster and gets pretty close to the solution. 
 
