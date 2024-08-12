@@ -58,7 +58,6 @@ class Solution:
         def manhattanDistance(point1, point2):
             return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
 
-        # Initialization
         n = len(points)
         min_heap = []
         visited = set()  # To track visited nodes
@@ -68,9 +67,6 @@ class Solution:
         for i in range(1, n):
             dist = manhattanDistance(points[0], points[i])
             heapq.heappush(min_heap, (dist, i))
-
-
-
 
         # Prims algorithm
         while len(visited) < n:
@@ -105,7 +101,6 @@ class Solution:
 
         if root == None:
             return res
-
 
         stack = [root]
         count = 0
