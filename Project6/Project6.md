@@ -205,54 +205,49 @@ class Solution:
 ## Time and Space Complexity analysis
 - [x] Provide a brief analysis of the time and space complexity of your solution and which Problem Solving Tools from the class you used.
 
+### 1 - Two Sum
+
+### 39 - Combination Sum
+
+### 1584 - Min Cost to Connect All Points
+
+### 102 - Binary Tree Level-order Traversal
+
+### 279 - Perfect Squares
+
+### 406 - Queue Reconstruction by Height
+
 ## Compare Solutions
 - [x] Meet with another student in the class that solved the same problem and compare your solutions and problem solving strategies.
 
+I met with Jackson Steed, Tristan Bitter, and MaiLia Pohahau to discuss solutions. I was able to compare solutions to each problem except 406 Queue Reconstruction by Height. 
 
+### 1 - Two Sum
 
+I used a nested for loop and a greedy approach to solve the problem. Jackson and MaiLia used hash maps with the number they were considering for fast access and were able to avoid the second for loop. Tristan did something similar but used a normal map instead of a hashed map. Everyone applied a greedy approach. 
 
+### 39 - Combination Sum
 
+I sorted the candidate array and applied a branch and bound approach where I would prune values based on how they were sorted. Tristan also sorted the list before, and both Tristan and Jackson subtracted values rather than added values. Their starting node was the target and my starting node was zero. MaiLia did an approach similar to mine except she didn't prune any branches but built down starting at the top.  
 
+### 1584 - Min Cost to Connect All Points
 
+I applied Prim's algorithm using heapq's binary min-heap just like we did in class. Tristan and MaiLia both used Prim's algorithm as well, but implemented it with queues. Tristan implmented his own queue, and Jackson did not do this problem. 
 
-Jackson steed
-Two sum - used a hashed list (with the hash being the number) to avoid a nested for loop
-Combined sum - subtracted every number from the target created a tree with every subtraction. Built down rather than up
-Binary tree level order - passed in level counter. Used recursion. 
-Perfect squares - stored all perfect squares for faster access. Dynamic programming. Like knapsack. Used more memory to make it faster.
+### 102 - Binary Tree Level-order Traversal
 
+I used one while loop and a stack that would push nodes onto it to do a breadth first search. Tristan and MaiLia used for loops with queues, and Jackson used recursion with a level counter to determine which nodes to check. 
 
-Tristan bitter
-Two sum - used a map with number as index
-Combined sum - sorted the list before and subtracted each number from the target until it equaled 0. Built down rather than up
-Min cost to all points - used a queue. Used prims.
-Binary tree level order - used a queue. Used a for loop.
-Perfect squares - did it like knapsack. Looped until the square root of the number 
+### 279 - Perfect Squares
 
+I used a dynamic programming approach and implemented it very similiarly to the knapsack problem. I only iterated to the square root of the number I was looking for to save computations. Tristan did it the same way I did. Jackson also did a dynamic programming approach, but he also stored his perfect squares in an array which made the algorithm much faster. He used more memory, but concluded much faster. I also talked to Thomas about his solution, and he did a dynamic programming approach but initialized all entries to infinity instead of filling the dp-array slowly. 
 
+### 406 - Queue Reconstruction by Height
 
-
-MaiLia Pohahau
-Two sum - used a hash map
-Combined sum - filled out the whole tree and built down. 
-Min cost to all points - used a queue. Used prims
-Binary tree level order - used a queue
-
-
-
-Thomas
-Perfect squares - used dynamic programming, initialized to infinity, 
-
-
-
-
-
-
-
-
+I was not able to meet anyone who did this problem. I had a double nested for loop that would sort each person's height one by one using some tricks that take advantage of the setup of the problem.
 
 ## Conclusion
 - [x] highlight the overall lessons learned from this project.
 
-
+One important lesson I learned from this project was the importance of Time Complexity. I was often scared of writing more lines of code down because I was afraid it would increase the space complexity of the problem. This resulted in making all my solutions be the 75 percentile of space complexity, but in the lower 25 percentile of time complexity. I was far behind most solutions as far as speed, and using Dynamic Programming to speed up solutions such as Jackson did in the perfect squares problem was very helpful in speeding up my solutions. I think for this reason Dynamic Programming was a very helpful topic that I think I will use a lot in future problems like these. 
 
