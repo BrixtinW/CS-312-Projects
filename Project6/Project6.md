@@ -207,15 +207,39 @@ class Solution:
 
 ### 1 - Two Sum
 
+**Time Complexity:** Two Sum is a simple greedy double for loop which will have at most a O(n^2) Time Complexity. 
+
+**Space Complexity:** The only additional things in memory are i, j and n variables and the return value, so the Space Complexity is constant or O(1)
+
 ### 39 - Combination Sum
+
+**Time Complexity:** Because each number an either be included or exclued, the worst case scenario would be O(2^n), though in reality it will likely be far less than this because of how it prunes values. The maximum recursion depth is O(n), but this is swallowed up in the expoential time constraint. 
+
+**Space Complexity:** Becuase you're storing an array of up to length n in all recusive frames, the space complexity would be up to O(n^2).
 
 ### 1584 - Min Cost to Connect All Points
 
+**Time Complexity:** This implementation is a fairly straight forward Prim's Algorithm which has a time complexity of O((V+E)log V) if you're using a min heap which I did. Becuase this graph is strongly connected there are E = V-1, which means that our time complexity is O((V+V)log V) or if you distribute, O(V log V).
+
+**Space Complexity:** The Space taken up is just in the min-heap and several constant variables, which results in an O(n) Space Complexity
+
 ### 102 - Binary Tree Level-order Traversal
+
+**Time Complexity:** There are at most n nodes on the tree and doing a level order traversal will go through each node once. This means it has a Time Complexity of O(n)
+
+**Space Complexity:** The stack will only be as large as the last level in the tree, which means the Space Complexity will be O(w) where w is the width of the last level of the tree assuming the binary tree is completly filled. 
 
 ### 279 - Perfect Squares
 
+**Time Complexity:** I used a double foor loop to calculate and update the dynamic programming array. for this reason, the Time complexity is at worst O(n * sqrt(n)) because the first loop loops through almost n iterations and the second only loops until the square root of n.
+
+**Space Complexity:** Becuase I'm using Dynamic Programming, I am filling out an array of n+1 length to keep track of the best solution at each number. This means my Space Complexity is O(n) or linear. 
+
 ### 406 - Queue Reconstruction by Height
+
+**Time Complexity:** I'm using a nested for loop where each loop can loop for at most n iterations making the solution O(n^2)
+
+**Space Complexity:** I'm using a sorted array as well as a result array which are both n items long so the Space Complexity is O(n).
 
 ## Compare Solutions
 - [x] Meet with another student in the class that solved the same problem and compare your solutions and problem solving strategies.
@@ -228,7 +252,7 @@ I used a nested for loop and a greedy approach to solve the problem. Jackson and
 
 ### 39 - Combination Sum
 
-I sorted the candidate array and applied a branch and bound approach where I would prune values based on how they were sorted. Tristan also sorted the list before, and both Tristan and Jackson subtracted values rather than added values. Their starting node was the target and my starting node was zero. MaiLia did an approach similar to mine except she didn't prune any branches but built down starting at the top.  
+I sorted the candidate array and applied a branch and bound approach where I would prune values based on how they were sorted. This resulted in a sort of depth first search to find the possible values. Tristan also sorted the list before, and both Tristan and Jackson subtracted values rather than added values. Their starting node was the target and my starting node was zero. MaiLia did an approach similar to mine except she didn't prune any branches but built down starting at the top.  
 
 ### 1584 - Min Cost to Connect All Points
 
